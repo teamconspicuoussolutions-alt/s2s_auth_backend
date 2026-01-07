@@ -1,0 +1,126 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  user_id            String          @id @default(cuid())
+  name               String?
+  email              String?         @unique
+  phone              String?         @unique
+  password           String          @default("") 
+  dob                String? 
+  blood_group        String?
+
+  // Plan Status
+  plan_status        String          @default("inactive")
+
+  // Address Relations
+  addresses          Address[]       @relation("UserAddresses")
+  default_address    Address?        @relation("DefaultAddress", fields: [default_address_id], references: [address_id])
+  default_address_id String?         @unique // Int se String kiya gaya
+
+  subscription       SubscribedUser?
+
+  // Family Members Relation
+  members            Member[]
+
+  // Orders Relation
+  orders             Order[]
+
+  // Allowed numbers added by / owned by this user
+  allowed_numbers    AllowedNumber[]
+
+  created_at         DateTime        @default(now())
+  updated_at         DateTime        @updatedAt
+}
+
+model SubscribedUser {
+  subscription_id String   @id @default(cuid()) // Int se String (cuid)
+  user_id         String   @unique
+  user            User     @relation(fields: [user_id], references: [user_id])
+  plan_name       String   @default("S2S Premium")
+  amount          Float    @default(2999.0)
+  start_date      DateTime @default(now())
+  end_date        DateTime
+  status          String   @default("active")
+}
+
+model Address {
+  address_id       String  @id @default(cuid()) // Int se String (cuid)
+  user             User    @relation("UserAddresses", fields: [user_id], references: [user_id])
+  user_id          String
+  address_line     String?
+  city             String?
+  state            String?
+  country          String? @default("India")
+  pin_code         String?
+  label            String?
+  lat              Float?
+  lon              Float?
+  
+  orders           Order[]
+  created_at       DateTime @default(now())
+  default_for_user User?    @relation("DefaultAddress")
+}
+
+model Member {
+  member_id       String          @id @default(cuid())
+  name            String
+  dob             String?         // Format: DD/MM/YYYY
+  blood_group     String?
+  phone           String?
+  
+  user_id         String?
+  user            User?           @relation(fields: [user_id], references: [user_id])
+  
+  orders          Order[]
+  allowed_numbers AllowedNumber[]
+  created_at      DateTime        @default(now())
+}
+
+model Order {
+  order_id            String   @id @default(cuid())
+  user_id             String
+  user                User     @relation(fields: [user_id], references: [user_id])
+  member_id           String?
+  member              Member?  @relation(fields: [member_id], references: [member_id])
+  admin_id            String? 
+  service_category    String 
+  service_subcategory String 
+  work_description    String
+  address_id          String   // Int se String kiya gaya kyuki Address.address_id badal gaya hai
+  address             Address  @relation(fields: [address_id], references: [address_id])
+  scheduled_date      DateTime
+  preferred_time      String
+  order_status        String   @default("pending")
+  
+  created_at          DateTime @default(now())
+  updated_at          DateTime @updatedAt
+}
+
+model Otp {
+  id        String   @id @default(cuid()) // Int se String (cuid)
+  phone     String   @unique
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model AllowedNumber {
+  id           String   @id @default(cuid()) // Int se String (cuid)
+  phone_number String   @unique
+  member_id    String?
+  member       Member?  @relation(fields: [member_id], references: [member_id])
+  user_id      String
+  user         User     @relation(fields: [user_id], references: [user_id])
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  @@index([phone_number])
+}
