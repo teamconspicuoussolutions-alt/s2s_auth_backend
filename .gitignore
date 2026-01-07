@@ -1,0 +1,11 @@
+# Copy to .env and fill real values
+PORT=4001
+
+# OTP TTL in seconds (default 300 => 5 minutes)
+OTP_TTL_SECONDS=90
+
+JWT_SECRET="b1d376863d339a863f75b10083947b5ba739653f17d22fc7091acb94c069f68a209d44238ffe2f2c7578e3c71ab81a2a724761a5d06c498839c5b528e00faa29"
+
+# Prisma + App normal connection (FAST, Pooling)
+DATABASE_URL="postgresql://postgres.ekcwbxeotghlpauetzlj:DataBase_pass%40123@aws-1-ap-southeast-2.pooler.supabase.com:6543/postgres"
+
