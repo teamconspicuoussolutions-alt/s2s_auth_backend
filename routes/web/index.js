@@ -3,7 +3,8 @@ const express = require('express');
 const router = express.Router();
 const profileRoutes = require('./profile'); 
 
-router.use('/profile', profileRoutes); 
+router.use('/', profileRoutes);
 
 
 module.exports = router;
+
