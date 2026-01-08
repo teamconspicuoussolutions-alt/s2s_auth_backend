@@ -63,7 +63,7 @@ router.put('/update-profile', authenticateToken, async (req, res) => {
                 // Direct Location Update
                 city: city,
                 state: state,
-                pincode: pin_code,
+                pin_code: pincode,
                 country: country
             }
         });
@@ -77,6 +77,7 @@ router.put('/update-profile', authenticateToken, async (req, res) => {
 });
 
 module.exports = router;
+
 
 
 
