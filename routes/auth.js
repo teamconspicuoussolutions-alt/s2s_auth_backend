@@ -1,3 +1,4 @@
+// s2s_auth_backend/routes/auth.js
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
@@ -76,3 +77,4 @@ router.get('/verify-token', authenticateToken, async (req, res) => {
 });
 
 module.exports = router;
+
