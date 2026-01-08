@@ -1,3 +1,4 @@
+// s2s_auth_backend/routes/web/profile.js
 const express = require('express');
 const router = express.Router();
 const prisma = require('../../prismaClient');
@@ -124,3 +125,4 @@ router.put('/update-profile', authenticateToken, async (req, res) => {
 });
 
 module.exports = router;
+
