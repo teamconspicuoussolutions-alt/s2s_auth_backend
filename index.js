@@ -1,3 +1,4 @@
+// s2s_auth_backend/index.js
 require('dotenv').config();
 const express = require('express');
 const app = express();
@@ -23,3 +24,4 @@ const PORT = process.env.PORT || 4001;
 app.listen(PORT,'0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
+
