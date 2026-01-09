@@ -1,3 +1,4 @@
+s2s_auth_backend/middleware/authMiddleware.js
 const jwt = require('jsonwebtoken');
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -16,3 +17,4 @@ const authenticateToken = (req, res, next) => {
 };
 
 module.exports = authenticateToken;
+
