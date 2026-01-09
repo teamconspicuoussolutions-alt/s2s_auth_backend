@@ -1,3 +1,5 @@
+//s2s_auth_backend/routes/web/member.js
+
 const express = require('express');
 const router = express.Router();
 const prisma = require('../../prismaClient');
