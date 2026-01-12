@@ -5,6 +5,9 @@ const prisma = require("../../prismaClient");
 
 // 🔐 SECURITY: sirf GitHub Actions
 router.post("/expire-subscriptions", async (req, res) => {
+  console.log("=== CRON DEBUG ===");
+  console.log("Header:", req.headers["x-cron-secret"]);
+  console.log("ENV:", process.env.CRON_SECRET);
   if (req.headers["x-cron-secret"] !== process.env.CRON_SECRET) {
     return res.status(401).json({ error: "Unauthorized" });
   }
