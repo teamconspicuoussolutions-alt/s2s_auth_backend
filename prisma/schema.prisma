@@ -40,6 +40,9 @@ model User {
   // Allowed numbers added by / owned by this user
   allowed_numbers    AllowedNumber[]
 
+  wishlist         Wishlist[]
+  cart             Cart[]
+
   created_at         DateTime        @default(now())
   updated_at         DateTime        @updatedAt
 }
@@ -157,6 +160,35 @@ model ServiceSubCategory {
   price       Float           @default(0.0) // Naya column price ke liye
   category_id String
   category    ServiceCategory @relation(fields: [category_id], references: [id], onDelete: Cascade)
-     
+  wishlist_items Wishlist[]
+  cart_items     Cart[] 
   created_at  DateTime        @default(now())
+}
+
+model Wishlist {
+  id             String             @id @default(cuid())
+  user_id        String
+  user           User               @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  subcategory_id String
+  subcategory    ServiceSubCategory @relation(fields: [subcategory_id], references: [id], onDelete: Cascade)
+
+  created_at     DateTime           @default(now())
+
+  // Ek user ek service ko ek hi baar wishlist kar sake
+  @@unique([user_id, subcategory_id])
+}
+
+model Cart {
+  id             String             @id @default(cuid())
+  user_id        String
+  user           User               @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  subcategory_id String
+  subcategory    ServiceSubCategory @relation(fields: [subcategory_id], references: [id], onDelete: Cascade)
+  quantity       Int                @default(1)
+
+  created_at     DateTime           @default(now())
+  updated_at     DateTime           @updatedAt
+
+  // Ek user ke cart mein ek item ki quantity update ho, naya row na bane
+  @@unique([user_id, subcategory_id])
 }
