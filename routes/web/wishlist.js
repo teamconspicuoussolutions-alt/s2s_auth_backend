@@ -1,6 +1,6 @@
 const express = require("express");
 const prisma = require("../../prismaClient");
-const verifyToken = require("../../middleware/auth");
+const verifyToken = require("../../middleware/authMiddleware");
 
 
 
