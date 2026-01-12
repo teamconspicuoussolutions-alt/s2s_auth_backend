@@ -128,12 +128,15 @@ model AllowedNumber {
   @@index([phone_number])
 }
 
-
 //  Enum for Service Modes
 enum ServiceMode {
   REPAIR
   INSTALLATION
   GENERAL
+  OUTSTATION
+  IN_CITY
+  WOMEN
+  MEN
 }
 
 //  Main Category Table
@@ -151,7 +154,7 @@ model ServiceSubCategory {
   id          String          @id @default(cuid())
   name        String
   mode        ServiceMode     @default(GENERAL)
-  
+  price       Float           @default(0.0) // Naya column price ke liye
   category_id String
   category    ServiceCategory @relation(fields: [category_id], references: [id], onDelete: Cascade)
      
