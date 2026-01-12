@@ -1,6 +1,7 @@
 const express = require("express");
-import prisma from "../../prismaClient.js";
-import verifyToken from "../../middleware/auth.js"; 
+const prisma = require("../../prismaClient");
+const verifyToken = require("../../middleware/auth");
+
 
 
 const router = express.Router();
