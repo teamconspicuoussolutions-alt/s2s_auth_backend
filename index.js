@@ -15,7 +15,7 @@ const authRoutes = require('./routes/auth');
 const webRoutes = require('./routes/web/');
 const appRoutes = require('./routes/app');
 const internalCronRoutes = require("./routes/internal/cron");
-import wishlistRoutes from "./routes/web/wishlist.js";
+const wishlistRoutes = require("./routes/web/wishlist");
 
 
 
@@ -32,6 +32,7 @@ const PORT = process.env.PORT || 4001;
 app.listen(PORT,'0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
+
 
 
 
