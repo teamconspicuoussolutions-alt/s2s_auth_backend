@@ -118,5 +118,6 @@ router.delete("/:subcategoryId", verifyToken, async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;
+
 
