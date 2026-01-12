@@ -1,0 +1,19 @@
+name: Expire Subscriptions Cron
+
+on:
+  schedule:
+    # 🕐 1:00 AM IST = 7:30 PM UTC
+    - cron: "30 19 * * *"
+
+  # 👇 manual run option (testing ke liye)
+  workflow_dispatch:
+
+jobs:
+  expire-subscriptions:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Call backend cron route
+        run: |
+          curl -X POST https://s2s-auth-backend.onrender.com/internal/cron/expire-subscriptions \
+          -H "x-cron-secret: ${{ secrets.CRON_SECRET }}"
