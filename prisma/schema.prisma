@@ -127,3 +127,33 @@ model AllowedNumber {
 
   @@index([phone_number])
 }
+
+
+//  Enum for Service Modes
+enum ServiceMode {
+  REPAIR
+  INSTALLATION
+  GENERAL
+}
+
+//  Main Category Table
+model ServiceCategory {
+  id            String               @id @default(cuid())
+  name          String
+  slug          String               @unique // e.g., 'electrician'
+  image_uri     String
+  sub_categories ServiceSubCategory[]
+  created_at    DateTime             @default(now())
+}
+
+//  Sub-Category Table
+model ServiceSubCategory {
+  id          String          @id @default(cuid())
+  name        String
+  mode        ServiceMode     @default(GENERAL)
+  
+  category_id String
+  category    ServiceCategory @relation(fields: [category_id], references: [id], onDelete: Cascade)
+     
+  created_at  DateTime        @default(now())
+}
