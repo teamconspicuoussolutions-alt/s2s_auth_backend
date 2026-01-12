@@ -141,6 +141,9 @@ enum ServiceMode {
   IN_CITY
   WOMEN
   MEN
+  S2S
+  MEDICAL
+  URGENT
 }
 
 //  Main Category Table
