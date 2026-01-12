@@ -25,6 +25,7 @@ model User {
 
   // Plan Status
   plan_status        String          @default("inactive")
+  subscription_count Int             @default(0) 
 
   // Address Relations
   addresses          Address[]       @relation("UserAddresses")
@@ -70,7 +71,7 @@ model Address {
   label            String?
   lat              Float?
   lon              Float?
-  
+  plan_status       String   @default("active")
   orders           Order[]
   created_at       DateTime @default(now())
 }
@@ -81,7 +82,7 @@ model Member {
   dob             String?         // Format: DD/MM/YYYY
   blood_group     String?
   phone           String?
-  
+  plan_status     String          @default("active")
   user_id         String?
   user            User?           @relation(fields: [user_id], references: [user_id])
   
