@@ -68,13 +68,55 @@ router.post('/login', async (req, res) => {
 
 // 4. Verify Token (For Page Refresh)
 router.get('/verify-token', authenticateToken, async (req, res) => {
-  const user = await prisma.user.findUnique({
-    where: { user_id: req.user.sub },
-    select: { user_id: true, name: true, plan_status: true }
-  });
-  if (!user) return res.status(404).json({ error: 'User not found' });
-  res.json({ success: true, user });
+  try {
+    const userId = req.user.sub;
+    const now = new Date();
+
+    const user = await prisma.user.findUnique({
+      where: { user_id: userId },
+      select: {
+        user_id: true,
+        name: true,
+        plan_status: true,
+        subscription: {
+          select: {
+            end_date: true,
+            status: true
+          }
+        }
+      }
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // 🔥 RUNTIME CHECK (READ ONLY)
+    let effectivePlanStatus = user.plan_status;
+
+    if (
+      user.subscription &&
+      now > user.subscription.end_date
+    ) {
+      effectivePlanStatus = "inactive";
+    }
+
+    res.json({
+      success: true,
+      user: {
+        user_id: user.user_id,
+        name: user.name,
+        plan_status: effectivePlanStatus
+      }
+    });
+
+  } catch (err) {
+    console.error("Verify token error:", err);
+    res.status(500).json({ error: "Verification failed" });
+  }
 });
 
+
 module.exports = router;
+
 
