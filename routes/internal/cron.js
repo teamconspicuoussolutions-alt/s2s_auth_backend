@@ -11,6 +11,8 @@ router.post("/expire-subscriptions", async (req, res) => {
   if (req.headers["x-cron-secret"] !== process.env.CRON_SECRET) {
     return res.status(401).json({ error: "Unauthorized" });
   }
+  console.log("✅ SECRET MATCHED");
+
 
   try {
     const now = new Date();
