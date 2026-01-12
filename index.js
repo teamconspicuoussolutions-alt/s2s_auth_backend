@@ -14,14 +14,19 @@ app.use(cors());
 const authRoutes = require('./routes/auth');
 const webRoutes = require('./routes/web/');
 const appRoutes = require('./routes/app');
+const internalCronRoutes = require("./routes/internal/cron");
+
 
 // Mounting Routes
 app.use('/api/auth', authRoutes); // Common Auth
 app.use('/api/web', webRoutes); // Web Specific
 app.use('/api/app', appRoutes);
+app.use("/internal/cron", internalCronRoutes);
+
 
 const PORT = process.env.PORT || 4001;
 app.listen(PORT,'0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
+
 
