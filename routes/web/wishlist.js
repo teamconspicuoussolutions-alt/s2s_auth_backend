@@ -12,26 +12,19 @@ const router = express.Router();
  */
 router.get("/", verifyToken, async (req, res) => {
   try {
-    const userId = req.user.user_id;
+    const userId = req.user.sub; // ✅ FIX
 
     const wishlist = await prisma.wishlist.findMany({
       where: { user_id: userId },
       include: {
         subcategory: {
-          include: {
-            category: true
-          }
+          include: { category: true }
         }
       },
-      orderBy: {
-        created_at: "desc"
-      }
+      orderBy: { created_at: "desc" }
     });
 
-    res.status(200).json({
-      success: true,
-      wishlist
-    });
+    res.json({ success: true, wishlist });
   } catch (error) {
     console.error("GET WISHLIST ERROR:", error);
     res.status(500).json({
@@ -41,6 +34,7 @@ router.get("/", verifyToken, async (req, res) => {
   }
 });
 
+
 /**
  * ✅ ADD TO WISHLIST
  * POST /api/wishlist
@@ -48,7 +42,7 @@ router.get("/", verifyToken, async (req, res) => {
  */
 router.post("/", verifyToken, async (req, res) => {
   try {
-    const userId = req.user.user_id;
+    const userId = req.user.sub; // ✅ FIX
     const { subcategory_id } = req.body;
 
     if (!subcategory_id) {
@@ -71,7 +65,6 @@ router.post("/", verifyToken, async (req, res) => {
       wishlistItem
     });
   } catch (error) {
-    // Duplicate wishlist (unique constraint)
     if (error.code === "P2002") {
       return res.status(409).json({
         success: false,
