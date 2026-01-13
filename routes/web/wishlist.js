@@ -93,7 +93,7 @@ router.post("/", verifyToken, async (req, res) => {
  */
 router.delete("/:subcategoryId", verifyToken, async (req, res) => {
   try {
-    const userId = req.user.user_id;
+    const userId = req.user.sub;   // ✅ FIXED
     const { subcategoryId } = req.params;
 
     await prisma.wishlist.delete({
@@ -105,7 +105,7 @@ router.delete("/:subcategoryId", verifyToken, async (req, res) => {
       }
     });
 
-    res.status(200).json({
+    res.json({
       success: true,
       message: "Removed from wishlist"
     });
@@ -117,6 +117,7 @@ router.delete("/:subcategoryId", verifyToken, async (req, res) => {
     });
   }
 });
+
 
 module.exports = router;
 
