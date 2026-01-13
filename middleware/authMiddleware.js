@@ -11,11 +11,14 @@ const authenticateToken = (req, res, next) => {
 
   jwt.verify(token, JWT_SECRET, (err, user) => {
     if (err) return res.status(403).json({ error: 'Invalid token' });
-    req.user = user; // User ID forward kar di
+    req.user = {
+      user_id: decoded.userId
+    };
     next();
   });
 };
 
 module.exports = authenticateToken;
+
 
 
