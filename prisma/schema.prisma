@@ -162,6 +162,7 @@ model ServiceSubCategory {
   name        String
   mode        ServiceMode     @default(GENERAL)
   price       Float           @default(0.0) // Naya column price ke liye
+  image_uri    String?
   category_id String
   category    ServiceCategory @relation(fields: [category_id], references: [id], onDelete: Cascade)
   wishlist_items Wishlist[]
