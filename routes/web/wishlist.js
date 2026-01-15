@@ -1,3 +1,4 @@
+// s2s_auth_backend/routes/web/wishlist.js
 const express = require("express");
 const prisma = require("../../prismaClient");
 const verifyToken = require("../../middleware/authMiddleware");
