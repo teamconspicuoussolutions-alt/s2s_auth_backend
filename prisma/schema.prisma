@@ -100,7 +100,11 @@ model Order {
   admin_id            String? 
   service_category    String 
   service_subcategory String 
+
   work_description    String
+  attachments         Json?
+  quantity       Int                @default(1)
+
   address_id          String   // Int se String kiya gaya kyuki Address.address_id badal gaya hai
   address             Address  @relation(fields: [address_id], references: [address_id])
   scheduled_date      DateTime
@@ -191,9 +195,13 @@ model Cart {
   subcategory    ServiceSubCategory @relation(fields: [subcategory_id], references: [id], onDelete: Cascade)
   quantity       Int                @default(1)
 
+  scheduled_date   DateTime
+  preferred_time   String
+  work_description String?    
+  attachments      Json?
+
   created_at     DateTime           @default(now())
   updated_at     DateTime           @updatedAt
 
-  // Ek user ke cart mein ek item ki quantity update ho, naya row na bane
   @@unique([user_id, subcategory_id])
 }
