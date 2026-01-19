@@ -13,19 +13,41 @@ const router = express.Router();
  */
 router.get("/", verifyToken, async (req, res) => {
   try {
-    const userId = req.user.sub; // ✅ FIX
+    const userId = req.user.sub;
+    const { limit, offset } = req.query; // Frontend se limit aur offset lein
 
+    // 1. 🚀 Sabse Pehle Sari IDs mangwao (Heart Icons ke liye) - Super Fast
+    const allWishlistEntries = await prisma.wishlist.findMany({
+      where: { user_id: userId },
+      select: { subcategory_id: true } // Sirf ID select karein
+    });
+    const allIds = allWishlistEntries.map(item => item.subcategory_id);
+
+    // 2. 🚀 Ab Limited Data mangwao (Profile Page Card ke liye)
     const wishlist = await prisma.wishlist.findMany({
       where: { user_id: userId },
-      include: {
+      take: limit ? parseInt(limit) : undefined,   // Kitne mangwane hain (e.g., 10)
+      skip: offset ? parseInt(offset) : undefined, // Kitne chhodne hain (e.g., 0)
+      select: {
+        id: true,
+        subcategory_id: true,
+        // ⭐ Yahan humne sirf wahi fields select ki hain jo card mein chahiye
         subcategory: {
-          include: { category: true }
+          select: {
+            name: true,
+            price: true,
+            image_uri: true
+          }
         }
       },
       orderBy: { created_at: "desc" }
     });
 
-    res.json({ success: true, wishlist });
+    res.json({ 
+      success: true, 
+      all_ids: allIds, // Sari IDs baki pages ke liye
+      wishlist        // Limited data profile page ke liye
+    });
   } catch (error) {
     console.error("GET WISHLIST ERROR:", error);
     res.status(500).json({
