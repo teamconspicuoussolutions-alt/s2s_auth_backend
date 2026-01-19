@@ -185,6 +185,7 @@ model Wishlist {
 
   // Ek user ek service ko ek hi baar wishlist kar sake
   @@unique([user_id, subcategory_id])
+  @@index([user_id])
 }
 
 model Cart {
@@ -197,11 +198,11 @@ model Cart {
 
   scheduled_date   DateTime
   preferred_time   String
-  work_description String?    
+  work_description String?          @default("")
   attachments      Json?
 
   created_at     DateTime           @default(now())
   updated_at     DateTime           @updatedAt
 
-  @@unique([user_id, subcategory_id])
+  @@unique([user_id, subcategory_id, work_description])
 }
