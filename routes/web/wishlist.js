@@ -36,7 +36,8 @@ router.get("/", verifyToken, async (req, res) => {
           select: {
             name: true,
             price: true,
-            image_uri: true
+            image_uri: true,
+            mode: true
           }
         }
       },
