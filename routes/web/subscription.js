@@ -55,7 +55,9 @@ router.post('/activate-subscription', authenticateToken, async (req, res) => {
                     amount: parseFloat(amount) || 0,
                     start_date: new Date(),
                     end_date: new Date(new Date().setFullYear(new Date().getFullYear() + 1)), // 1 Year validity
-                    status: "active"
+                    status: "active",
+                    order_id: razorpayOrderId, 
+                    payment_id: razorpayPaymentId
                 }
             });
 
