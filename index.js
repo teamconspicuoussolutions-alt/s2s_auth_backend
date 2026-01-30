@@ -19,6 +19,7 @@ const wishlistRoutes = require("./routes/web/wishlist");
 
 
 
+
 // Mounting Routes
 app.use('/api/auth', authRoutes); // Common Auth
 app.use('/api/web', webRoutes); // Web Specific
@@ -32,6 +33,7 @@ const PORT = process.env.PORT || 4001;
 app.listen(PORT,'0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
+
 
 
 
