@@ -57,6 +57,8 @@ model SubscribedUser {
   start_date      DateTime @default(now())
   end_date        DateTime
   status          String   @default("active")
+  order_id        String   @default("no_id") 
+  payment_id      String   @default("no_id")
 }
 
 model Address {
