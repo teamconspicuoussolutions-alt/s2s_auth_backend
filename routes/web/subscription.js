@@ -36,7 +36,7 @@ router.post('/save-personal-details', authenticateToken, async (req, res) => {
 router.post('/activate-subscription', authenticateToken, async (req, res) => {
     try {
         const userId = req.user.sub;
-        const { addresses, members, planName, amount } = req.body;
+        const { addresses, members, planName, amount, razorpayOrderId, razorpayPaymentId } = req.body;
 
         // TRANSACTION: Sab kuch ek saath save hoga
         await prisma.$transaction(async (tx) => {
