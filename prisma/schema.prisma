@@ -175,11 +175,24 @@ model ServiceSubCategory {
   image_uri    String?
   category_id String
   category    ServiceCategory @relation(fields: [category_id], references: [id], onDelete: Cascade)
+  sub_sub_categories ServiceSubSubCategory[]
   wishlist_items Wishlist[]
   cart_items     Cart[] 
   created_at  DateTime        @default(now())
 }
+model ServiceSubSubCategory {
+  id             String             @id @default(cuid())
+  name           String
+  price          Float              @default(0.0) // Specific item price
+  image_uri      String?
+  subcategory_id String
+  subcategory    ServiceSubCategory @relation(fields: [subcategory_id], references: [id], onDelete: Cascade)
 
+  created_at     DateTime           @default(now())
+  updated_at     DateTime           @updatedAt
+
+  @@index([subcategory_id])
+}
 model Wishlist {
   id             String             @id @default(cuid())
   user_id        String
