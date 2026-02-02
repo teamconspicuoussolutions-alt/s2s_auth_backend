@@ -76,6 +76,8 @@ model Address {
   plan_status       String   @default("active")
   orders           Order[]
   created_at       DateTime @default(now())
+
+@@index([user_id])
 }
 
 model Member {
@@ -91,6 +93,8 @@ model Member {
   orders          Order[]
   allowed_numbers AllowedNumber[]
   created_at      DateTime        @default(now())
+
+@@index([user_id])
 }
 
 model Order {
