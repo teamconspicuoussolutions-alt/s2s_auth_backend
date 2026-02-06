@@ -5,13 +5,15 @@ const profileRoutes = require('./profile');
 const subscriptionRoutes = require('./subscription');
 const addressRoutes = require('./address');
 const memberRoutes = require('./member');
+const bookingRoutes = require('./booking');
 
 router.use('/', profileRoutes);
 router.use('/subscription', subscriptionRoutes);
 router.use('/addresses', addressRoutes);
 router.use('/members', memberRoutes);
-
+router.use('/booking', bookingRoutes);
 module.exports = router;
+
 
 
 
