@@ -7,14 +7,16 @@ const authenticateToken = require('../../middleware/authMiddleware');
 
 // 🔹 GET MEMBERS
 router.get('/', authenticateToken, async (req, res) => {
-  const userId = req.user.sub;
-
-  const members = await prisma.member.findMany({
-    where: { user_id: userId },
-    orderBy: { created_at: 'asc' }
-  });
-
-  res.json({ success: true, data: members });
+  try {
+    const userId = req.user.sub || req.user.id;
+    const members = await prisma.member.findMany({
+      where: { user_id: userId },
+      orderBy: { created_at: 'asc' }
+    });
+    res.json({ success: true, data: members });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Member fetch error" });
+  }
 });
 
 // 🔹 ADD MEMBER
