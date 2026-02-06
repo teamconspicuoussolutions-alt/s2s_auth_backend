@@ -6,14 +6,16 @@ const authenticateToken = require('../../middleware/authMiddleware');
 
 // 🔹 GET ALL ADDRESSES
 router.get('/', authenticateToken, async (req, res) => {
-  const userId = req.user.sub;
-
-  const addresses = await prisma.address.findMany({
-    where: { user_id: userId },
-    orderBy: { created_at: 'asc' }
-  });
-
-  res.json({ success: true, data: addresses });
+  try {
+    const userId = req.user.sub || req.user.id; // Auth context ke according
+    const addresses = await prisma.address.findMany({
+      where: { user_id: userId },
+      orderBy: { created_at: 'asc' }
+    });
+    res.json({ success: true, data: addresses });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Address fetch error" });
+  }
 });
 
 // 🔹 ADD NEW ADDRESS
