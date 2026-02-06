@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const prisma = require('../../prismaClient');
-const authenticateToken = require('../../middleware/auth');
+const authenticateToken = require('../../middleware/authMiddleware');
 
 // --- 1. Price Fetcher (Step 4 ke liye) ---
 router.get('/get-unit-price', authenticateToken, async (req, res) => {
